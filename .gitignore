@@ -26,9 +26,9 @@ build/
 .DS_Store
 Thumbs.db
 
-# 过程文件
-alter/
-
 # Docker相关（可选，根据需求调整）
 # database/data/
 # geoserver_data/
+
+# 文件夹
+return/
