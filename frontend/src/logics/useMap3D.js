@@ -1,3 +1,4 @@
+import * as Cesium from 'cesium';
 import { ref, computed } from 'vue';
 import { getPointIcon, drawHalfCylinder, drawServiceRadius, rippleIntervals } from '@/utils/cesiumHelper';
 import { getEducationSupply, getRecommendedSites } from '@/services/api';
@@ -42,8 +43,6 @@ export function useMap3D(cesiumContainer, TIANDITU_API_KEY, buildingColors, defa
   let cesiumPopupDiv = null;
   let cesiumPopupCloseBtn = null;
 
-  let Cesium = null;
-
   let isFlying = false;
   const isAnalyzing = ref(false);
   const currentAnalysisIndex = ref(0);
@@ -65,7 +64,6 @@ export function useMap3D(cesiumContainer, TIANDITU_API_KEY, buildingColors, defa
 
     window.CESIUM_BASE_URL = '/cesium';
 
-    Cesium = await import('cesium');
     await import('cesium/Build/Cesium/Widgets/widgets.css');
 
     Cesium.Ion.defaultAccessToken = import.meta.env.VITE_CESIUM_ION_TOKEN;
@@ -199,7 +197,8 @@ export function useMap3D(cesiumContainer, TIANDITU_API_KEY, buildingColors, defa
   }
 
   async function loadBuildings() {
-    const response = await fetch('http://localhost:3000/api/buildings');
+    const API_BASE = import.meta.env.PROD ? '' : 'http://localhost:3000';
+    const response = await fetch(`${API_BASE}/api/buildings`);
     const result = await response.json();
 
     const instances = [];
